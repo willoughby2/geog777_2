@@ -1,0 +1,34 @@
+/* Stylesheet by Amy Willoughby, 2018 */
+header {
+    font-family: serif;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    position:fixed;
+}
+
+html, body, #map {
+    height: 100%;
+    font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.lorem {
+    font-style: italic;
+    color: #AAA;
+}
+
+input[type=text], textarea {
+    width: 100%;
+    padding: 12px;  
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+}
