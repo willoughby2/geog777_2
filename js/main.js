@@ -76,7 +76,7 @@ function openPopUp(featureEvent) {
     let content ='';
     if (featureEvent.data.name) {
       console.log(featureEvent.data.name);
-      content += '<div class="widget"><p class="lorem">${featureEvent.data.name}</p></div>'
+      content += '<div class="widget"><p class="lorem">' + featureEvent.data.name + '</p></div>'
     }
 
     console.log(content);
