@@ -43,7 +43,8 @@
     var romoPoiStyle = new carto.style.CartoCSS("#layer {marker-width: 7; marker-fill: #EE4D5A; marker-line-color: #FFFFFF;}")
     var romoPoiLayer = new carto.layer.Layer(romoPoiSource, romoPoiStyle, {featureClickColumns: ['name']});
 
-    client.addLayers([romoPolygonLayer, romoTrailsLayer, romoCentersLayer, romoPoiLayer, romoSummitsLayer]);
+    client.addLayers([romoPolygonLayer, romoTrailsLayer, romoCentersLayer, romoSummitsLayer]);
+    client.addLayer(romoPoiLayer);
     client.getLeafletLayer().addTo(map);
 
 function toggleLayer(toggleLayer,id) {
@@ -68,10 +69,17 @@ var sidebar = L.control.sidebar('sidebar').addTo(map);
 sidebar.open('home');
 
 const popup = L.popup();
-romoPoiLayer.on(carto.layer.featureEvent, featureEvent => {
+function openPopUp(featureEvent) {
+  console.log(featureEvent)
   popup.setLatLng(featureEvent.latLng);
   if (!popup.isOpen()) {
-    popup.setContent(featureEvent.data.name);
+    let content ='';
+    if (featureEvent.data.name) {
+      content += '<div class="widget"><p class="lorem">${featureEvent.data.name}</p></div>'
+    }
+
+    console.log(content);
+    popup.setContent(content);
     popup.openOn(map);
   }
 });
