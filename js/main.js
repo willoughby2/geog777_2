@@ -75,6 +75,7 @@ function openPopUp(featureEvent) {
   if (!popup.isOpen()) {
     let content ='';
     if (featureEvent.data.name) {
+      console.log(featureEvent.data.name);
       content += '<div class="widget"><p class="lorem">${featureEvent.data.name}</p></div>'
     }
 
@@ -82,7 +83,7 @@ function openPopUp(featureEvent) {
     popup.setContent(content);
     popup.openOn(map);
   }
-});
+};
 
 function closePopup(featureEvent) {
   popup.removeFrom(map);
