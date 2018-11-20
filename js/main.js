@@ -83,3 +83,9 @@ function openPopUp(featureEvent) {
     popup.openOn(map);
   }
 });
+
+function closePopup(featureEvent) {
+  popup.removeFrom(map);
+}
+
+romoPoiLayer.on('featureClicked', openPopUp);
