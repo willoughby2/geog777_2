@@ -1,3 +1,7 @@
+/* eslint-disable no-console */
+/*eslint-env browser*/
+/*eslint-parser: babel-eslint*/
+
     var map = L.map('map').setView([40.35, -105.9], 10);
 
     $( document ).ready(function() {
@@ -23,27 +27,39 @@
         username: 'willoughby2'
     });
 
+    var romoPoiUserSource = new carto.source.SQL('SELECT * FROM poi_userinput WHERE enable = \'yes\'');
+
+    var romoPoiUserStyle = new carto.style.CartoCSS('#layer {marker-width: 10; marker-fill: #EE4D5A; marker-line-color: #FFFFFF;}');
+
+    var romoPoiUserLayer = new carto.layer.Layer(romoPoiUserSource, romoPoiUserStyle);
+
     var romoCentersSource = new carto.source.SQL('SELECT * FROM romo_visitorcenters');
+
     var romoCentersStyle = new carto.style.CartoCSS('#layer {marker-width:16; marker-fill: #EE4D5A; marker-line-color: #FFFFFF; marker-file: url("https://img.clipartxtras.com/a081f306355222c96014d74fe920dbdb_orange-house-clipart-clipartsgramcom-orange-house-clipart_600-600.png")}');
+
     var romoCentersLayer = new carto.layer.Layer(romoCentersSource, romoCentersStyle);
 
     var romoSummitsSource = new carto.source.SQL('SELECT * from romo_summits');
+
     var romoSummitsStyle = new carto.style.CartoCSS('#layer { marker-width: 10; marker-fill: #EE4D5A; marker-fill-opacity: 1; marker-allow-overlap: true; marker-line-width: 1; marker-line-color: #FFFFFF; marker-line-opacity: 1; marker-file: url("https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/White_Arrow_Up.svg/1024px-White_Arrow_Up.svg.png");}');
-    var romoSummitsLayer = new carto.layer.Layer(romoSummitsSource, romoSummitsStyle, {featureClickColumns: ['feature_na']});
+
+    var romoSummitsLayer = new carto.layer.Layer(romoSummitsSource, romoSummitsStyle, {
+      featureClickColumns: ['feature_na']
+    });
 
     var romoTrailsSource = new carto.source.SQL('SELECT * from romo_trails');
+
     var romoTrailsStyle = new carto.style.CartoCSS('#layer {line-color: #303030; line-width: 1; line-opacity: .7}')
+
     var romoTrailsLayer = new carto.layer.Layer(romoTrailsSource, romoTrailsStyle);
 
     var romoPolygonSource = new carto.source.Dataset("romo_polygon");
-    var romoPolygonStyle = new carto.style.CartoCSS("#layer {polygon-fill: #E066FF; polygon-opacity: 0.15; ::outline {line-width: 1; line-color: #FFFFFF; line-opacity: 1;}}");
+
+    var romoPolygonStyle = new carto.style.CartoCSS("#layer {polygon-fill: #E066FF; polygon-opacity: 0.15; ::outline {line-width: 3; line-color: #FFFFFF; line-opacity: 1;}}");
+
     var romoPolygonLayer = new carto.layer.Layer(romoPolygonSource, romoPolygonStyle);
 
-    var romoPoiSource = new carto.source.Dataset("poi_userinput");
-    var romoPoiStyle = new carto.style.CartoCSS("#layer {marker-width: 7; marker-fill: #EE4D5A; marker-line-color: #FFFFFF;}")
-    var romoPoiLayer = new carto.layer.Layer(romoPoiSource, romoPoiStyle, {featureClickColumns: ['name']});
-
-    client.addLayers([romoPolygonLayer, romoTrailsLayer, romoCentersLayer, romoPoiLayer, romoSummitsLayer]);
+    client.addLayers([romoPolygonLayer, romoTrailsLayer, romoCentersLayer, romoPoiUserLayer, romoSummitsLayer]);
     client.getLeafletLayer().addTo(map);
 
 function toggleLayer(toggleLayer,id) {
@@ -67,11 +83,10 @@ function toggleBase() {
 var sidebar = L.control.sidebar('sidebar').addTo(map);
 sidebar.open('home');
 
-const popup = L.popup();
-romoPoiLayer.on(carto.layer.featureEvent, featureEvent => {
-  popup.setLatLng(featureEvent.latLng);
-  if (!popup.isOpen()) {
-    popup.setContent(featureEvent.data.name);
-    popup.openOn(map);
-  }
-});
+const summitsPopup = L.popup({ closeButton: false });
+romoSummitsLayer.on('featureClicked', featureEvent => {
+  summitsPopup.setLatLng(featureEvent.latlng);
+  let summit = featureEvent.data.feature_na;
+  summitsPopup.setContent('<h2>${summit}</h2>');
+  summitsPopup.openOn(map);
+})

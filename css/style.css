@@ -8,8 +8,6 @@ header {
 body {
     padding: 0;
     margin: 0;
-    overflow: hidden;
-    position:fixed;
 }
 
 html, body, #map {
@@ -22,13 +20,7 @@ html, body, #map {
     color: #AAA;
 }
 
-input[type=text], textarea {
-    width: 100%;
-    padding: 12px;  
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
-    resize: vertical
+.widget .leaflet-popup-content-wrapper {
+    background: #E93434;
+    color: #FFFFFF;
 }
