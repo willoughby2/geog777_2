@@ -15,9 +15,12 @@ html, body, #map {
     font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
+.text {
+    font-size: 9;
+}
+
 .lorem {
     font-style: italic;
-    color: #AAA;
 }
 
 .widget .leaflet-popup-content-wrapper {
